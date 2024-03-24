@@ -78,7 +78,7 @@ onUnmounted(() => {
     <p v-if="connected">Connected - Status: {{ status }}</p>
     <p v-else>Not Connected</p>
     <div class="grid grid-cols-2 grid-rows-2 gap-2">
-      <img :src="baseImage" class="bg-gray-500 w-full object-contain">
+      <img :src="baseImage" class="bg-gray-500 w-screen object-contain">
       <img :src="image1" class="bg-gray-500 w-full object-contain">
       <img :src="image2" class="bg-gray-500 w-full object-contain">
       <img :src="image3" class="bg-gray-500 w-full object-contain">

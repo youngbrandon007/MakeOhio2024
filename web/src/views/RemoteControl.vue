@@ -115,7 +115,7 @@ function updateMovement() {
       <button @click="modeNormal" class="py-1 px-2 bg-gray-800 rounded hover:bg-gray-700">Normal Mode</button>
     </div>
     <div class="grid grid-cols-2 grid-rows-2 gap-2">
-      <img :src="baseImage" class="bg-gray-500 w-full object-contain">
+      <img :src="baseImage" class="bg-gray-500 w-screen object-contain">
       <img :src="image1" class="bg-gray-500 w-full object-contain">
       <img :src="image2" class="bg-gray-500 w-full object-contain">
       <img :src="image3" class="bg-gray-500 w-full object-contain">
