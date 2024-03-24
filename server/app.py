@@ -2,7 +2,7 @@ import flask, flask_socketio, base64
 from flask_cors import CORS, cross_origin
 from valuegenoptimized2 import createVisuals
 
-cors_urls = ["http://localhost:5173", "https://bananabreadmakeohio2024.web.app"]
+cors_urls = ["http://localhost:5173", "https://TO REPLACE-8080.use.devtunnels.ms", "https://TO REPLACE-5173.use.devtunnels.ms"]
 
 app = flask.Flask(__name__)
 cors = CORS(app,resources={r"/api/*":{"origins":", ".join(cors_urls)}})
