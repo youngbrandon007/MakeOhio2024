@@ -1,6 +1,6 @@
 <template>
   <main class="p-4 flex flex-col gap-2">
-    <h1 class="font-bold text-3xl">Banana Bread Make OHI/O 2024</h1>
+    <h1 class="font-bold text-3xl">Team 2 - Banana Bread - Make OHI/O 2024</h1>
     <p>
       <a class="text-blue-500 hover:text-blue-400" target="_blank" href="https://github.com/youngbrandon007/MakeOhio2024">Github Repo</a>
     </p>

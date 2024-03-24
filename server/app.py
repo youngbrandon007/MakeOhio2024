@@ -7,7 +7,7 @@ import image
 import json
 import matplotlib.pyplot as plt
 import exampleimages
-cors_urls = ["http://localhost:5173", "https://TO REPLACE-8080.use.devtunnels.ms", "https://TO REPLACE-5173.use.devtunnels.ms"]
+cors_urls = ["http://localhost:5173", "https://bananabreadmakeohio2024.web.app"]
 
 app = flask.Flask(__name__)
 cors = CORS(app,resources={r"/api/*":{"origins":", ".join(cors_urls)}})
@@ -62,7 +62,7 @@ def receiveImage():
     nparr = np.fromstring(data, np.uint8)
     img_np = cv2.imdecode(nparr, flags=1)
     
-    depth, danger_image_left, danger_image_right, out_danger_from_left, out_danger_from_right, hit_left, hit_right = model.compute(img_np)
+    depth, danger_image_left, danger_image_right, out_danger_from_left, out_danger_from_right, hit_left, hit_right, hit_image_left, hit_image_right = model.compute(img_np)
     
     score = max(hit_left, hit_right)
     # print(hit_left, hit_right)
@@ -74,10 +74,15 @@ def receiveImage():
         remote_result_reset -= 1
         if remote_result_reset == 0:
             remote_result_state = "Go"
-    
+            
+    resized_base = cv2.resize(img_np, (depth.shape[1], depth.shape[0]))
+            
+    overlay_image_danger = model.overlay(resized_base, danger_image_left, danger_image_right)
+    overlay_image_hit = model.overlay(resized_base, hit_image_left, hit_image_right)
+            
     socketio.emit('image', ("image1", image.matLikeToBase64JPG(image.createVisual(depth))))
-    socketio.emit('image', ("image2", image.matLikeToBase64JPG(image.createVisual(danger_image_left))))
-    socketio.emit('image', ("image3", image.matLikeToBase64JPG(image.createVisual(danger_image_right))))
+    socketio.emit('image', ("image2", image.matLikeToBase64JPG(overlay_image_danger)))
+    socketio.emit('image', ("image3", image.matLikeToBase64JPG(overlay_image_hit)))
     socketio.emit('data', (json.dumps(out_danger_from_left), json.dumps(out_danger_from_right)))
     socketio.emit('status', (remote_result_state))
     

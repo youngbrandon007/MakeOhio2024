@@ -29,6 +29,33 @@ if model_type == "DPT_Large" or model_type == "DPT_Hybrid":
 else:
     transform = midas_transforms.small_transform
 
+def overlay(base, over1, over2, alpha=0.7, gamma=0.0, color1 = cv2.COLORMAP_INFERNO, color2 = cv2.COLORMAP_OCEAN):
+    base = cv2.cvtColor(base, cv2.COLOR_RGB2RGBA)
+
+    over1 = colorize(over1, color1)
+    over1 = cv2.cvtColor(over1, cv2.COLOR_RGB2RGBA)
+
+    mask1 = over1[:,:,0] <= 50
+
+    over1[mask1, 3] = 0
+    over1[~mask1,3] = 255
+
+    over2 = colorize(over2, color2)
+    over2 = cv2.cvtColor(over2, cv2.COLOR_RGB2RGBA)
+
+    mask2 = over2[:,:,0] <= 50
+
+    over2[mask2, 3] = 0
+    over2[~mask2,3] = 255
+
+    base = cv2.addWeighted(over2, alpha, base, 1, gamma)
+    base = cv2.addWeighted(over1, alpha, base, 1, gamma)
+
+    return base
+
+def colorize(frame, color = cv2.COLORMAP_OCEAN):
+    return cv2.applyColorMap(cv2.normalize(frame, None, 255, 0, cv2.NORM_MINMAX, cv2.CV_8U), color)
+
 
 def __calc_danger_val(width, depth):
     return min(WIDTH_CAP, width) * min(DEPTH_CAP, depth)
@@ -36,15 +63,6 @@ def __calc_danger_val(width, depth):
 
 kernel1 = np.full((1, VERTICAL_BLUR), 1 / VERTICAL_BLUR)
 def compute(img):
-    # start = time()
-    
-    # contrast = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
-    # lc, ac, bc = cv2.split(contrast)
-
-    # clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8,8))
-    # nlc = clahe.apply(lc)
-
-    # img = cv2.cvtColor(cv2.merge((nlc, ac, bc)), cv2.COLOR_LAB2RGB)
     
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 

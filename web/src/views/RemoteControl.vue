@@ -11,7 +11,11 @@ onMounted(setup)
 watch(url, setup)
 
 const baseImage = ref<string>()
+const image1 = ref<string>()
+const image2 = ref<string>()
+const image3 = ref<string>()
 const connected = ref(false)
+const status = ref("")
 
 function setup() {
   if(socket !== undefined) {
@@ -30,6 +34,19 @@ function setup() {
     if(name === "base") {
       baseImage.value = "data:image/jpeg;base64," + img
     }
+    if(name === "image1") {
+      image1.value = "data:image/jpeg;base64," + img
+    }
+    if(name === "image2") {
+      image2.value = "data:image/jpeg;base64," + img
+    }
+    if(name === "image3") {
+      image3.value = "data:image/jpeg;base64," + img
+    }
+  })
+
+  socket.on('status', (newStatus) => {
+    status.value = newStatus
   })
 
   socket.on('connect', () => {
@@ -97,7 +114,12 @@ function updateMovement() {
       <button @click="modeRemte" class="py-1 px-2 bg-gray-800 rounded hover:bg-gray-700">Remote Control Mode</button>
       <button @click="modeNormal" class="py-1 px-2 bg-gray-800 rounded hover:bg-gray-700">Normal Mode</button>
     </div>
-    <img :src="baseImage" class="bg-gray-500 min-w-64 min-h-32 object-contain">
-    <p>Click Enable then use arrow keys to move car.</p>
+    <div class="grid grid-cols-2 grid-rows-2 gap-2">
+      <img :src="baseImage" class="bg-gray-500 w-full object-contain">
+      <img :src="image1" class="bg-gray-500 w-full object-contain">
+      <img :src="image2" class="bg-gray-500 w-full object-contain">
+      <img :src="image3" class="bg-gray-500 w-full object-contain">
+    </div>
+    <p>Status: {{ status }}</p>
   </main>
 </template>
