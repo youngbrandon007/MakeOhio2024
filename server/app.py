@@ -53,8 +53,7 @@ def receiveImage():
     file = flask.request.files['file']
     data = file.stream.read()
     
-    img = base64.encodebytes(data)
-    socketio.emit('image', ("base", img.decode()))
+    # img = base64.encodebytes(data)
 
     if remote_control_only:
         return remote_control_state
@@ -76,6 +75,8 @@ def receiveImage():
             remote_result_state = "Go"
             
     resized_base = cv2.resize(img_np, (depth.shape[1], depth.shape[0]))
+
+    socketio.emit('image', ("base", image.matLikeToBase64JPG(resized_base)))
             
     overlay_image_danger = model.overlay(resized_base, danger_image_left, danger_image_right)
     overlay_image_hit = model.overlay(resized_base, hit_image_left, hit_image_right)
