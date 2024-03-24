@@ -17,7 +17,7 @@ function setup() {
     socket!.disconnect()
   }
 
-  socket = io(url.value);
+  socket = io(url.value, { transports: ["polling"]});
 
   socket.on('test', () => {
     console.log("Recieved Message");
@@ -39,10 +39,12 @@ onUnmounted(() => {
 })
 
 function modeRemte() {
+  console.log("mode")
   socket?.emit('mode', "remote")
 }
 
 function modeNormal() {
+  console.log("mode")
   socket?.emit('mode', "normal")
 }
 
@@ -72,6 +74,7 @@ function updateMovement() {
 
   console.log(left, right);
 
+  console.log("remote")
   socket?.emit("remote", left, right);
 }
 </script>

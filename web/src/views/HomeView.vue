@@ -17,7 +17,7 @@ function setup() {
     socket!.disconnect()
   }
 
-  socket = io(url.value);
+  socket = io(url.value, { transports: ["polling"]});
 
   socket.on('test', () => {
     console.log("Recieved Message");

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {provide, ref} from 'vue'
 
-const url = ref("http://127.0.0.1:8080")
+const url = ref("http://localhost:8080/")
 provide('url', url)
 </script>
 
