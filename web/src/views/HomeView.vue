@@ -75,7 +75,7 @@ onUnmounted(() => {
 <template>
   <main class="p-4 flex flex-col gap-2 items-start">
     <h1 class="font-bold text-3xl">Live View</h1>
-    <p v-if="connected">Connected</p>
+    <p v-if="connected">Connected - Status: {{ status }}</p>
     <p v-else>Not Connected</p>
     <div class="grid grid-cols-2 grid-rows-2 gap-2">
       <img :src="baseImage" class="bg-gray-500 w-full object-contain">
@@ -83,6 +83,5 @@ onUnmounted(() => {
       <img :src="image2" class="bg-gray-500 w-full object-contain">
       <img :src="image3" class="bg-gray-500 w-full object-contain">
     </div>
-    <p>Status: {{ status }}</p>
   </main>
 </template>

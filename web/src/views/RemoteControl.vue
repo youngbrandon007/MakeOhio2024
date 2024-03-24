@@ -108,7 +108,7 @@ function updateMovement() {
 <template>
   <main class="p-4 flex flex-col gap-2">
     <h1 class="font-bold text-3xl">Remote Control</h1>
-    <p v-if="connected">Connected</p>
+    <p v-if="connected">Connected - Status: {{ status }}</p>
     <p v-else>Not Connected</p>
     <div class="flex flex-row gap-2">
       <button @click="modeRemte" class="py-1 px-2 bg-gray-800 rounded hover:bg-gray-700">Remote Control Mode</button>
@@ -120,6 +120,5 @@ function updateMovement() {
       <img :src="image2" class="bg-gray-500 w-full object-contain">
       <img :src="image3" class="bg-gray-500 w-full object-contain">
     </div>
-    <p>Status: {{ status }}</p>
   </main>
 </template>
