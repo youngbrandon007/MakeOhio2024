@@ -11,6 +11,7 @@ onMounted(setup)
 watch(url, setup)
 
 const baseImage = ref<string>()
+const connected = ref(false)
 
 function setup() {
   if(socket !== undefined) {
@@ -29,6 +30,14 @@ function setup() {
     if(name === "base") {
       baseImage.value = "data:image/jpeg;base64," + img
     }
+  })
+
+  socket.on('connect', () => {
+    connected.value = true
+  })
+
+  socket.on('disconnect', () => {
+    connected.value = false
   })
 }
 
@@ -82,6 +91,8 @@ function updateMovement() {
 <template>
   <main class="p-4 flex flex-col gap-2">
     <h1 class="font-bold text-3xl">Remote Control</h1>
+    <p v-if="connected">Connected</p>
+    <p v-else>Not Connected</p>
     <div class="flex flex-row gap-2">
       <button @click="modeRemte" class="py-1 px-2 bg-gray-800 rounded hover:bg-gray-700">Remote Control Mode</button>
       <button @click="modeNormal" class="py-1 px-2 bg-gray-800 rounded hover:bg-gray-700">Normal Mode</button>
