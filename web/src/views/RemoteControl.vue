@@ -42,6 +42,10 @@ function modeRemte() {
   socket?.emit('mode', "remote")
 }
 
+function modeNormal() {
+  socket?.emit('mode', "normal")
+}
+
 let keysDown = new Set()
 
 onMounted(() => {
@@ -77,6 +81,7 @@ function updateMovement() {
     <h1 class="font-bold text-3xl">Remote Control</h1>
     <div class="flex flex-row gap-2">
       <button @click="modeRemte" class="py-1 px-2 bg-gray-800 rounded hover:bg-gray-700">Remote Control Mode</button>
+      <button @click="modeNormal" class="py-1 px-2 bg-gray-800 rounded hover:bg-gray-700">Normal Mode</button>
     </div>
     <img :src="baseImage" class="bg-gray-500 min-w-64 min-h-32 object-contain">
     <p>Click Enable then use arrow keys to move car.</p>

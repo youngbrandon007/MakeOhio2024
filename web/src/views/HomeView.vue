@@ -40,16 +40,11 @@ onUnmounted(() => {
     socket.disconnect()
   }
 })
-
-function modeNormal() {
-  socket?.emit('mode', "normal")
-}
 </script>
 
 <template>
   <main class="p-4 flex flex-col gap-2 items-start">
     <h1 class="font-bold text-3xl">Home Page</h1>
-    <button @click="modeNormal" class="py-1 px-2 bg-gray-800 rounded hover:bg-gray-700">Normal Mode</button>
     <img :src="baseImage" class="bg-gray-500 min-w-64 min-h-32 object-contain">
   </main>
 </template>

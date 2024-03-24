@@ -35,8 +35,11 @@ else:
     transform = midas_transforms.small_transform
 
 def createVisuals(img):
-    
-    pass
+    res, dang_l, dang_r = compute(img)
+    def f(dang,p):
+        xs, ys = zip(*dang)
+        ax[i][p].scatter(x=xs, y=ys, c=xs)
+    return res
 
 def compute(img):
     # start = time()

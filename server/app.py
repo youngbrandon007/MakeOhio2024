@@ -1,12 +1,14 @@
 import flask, flask_socketio, base64
 from flask_cors import CORS, cross_origin
-from valuegenoptimized2 import compute
+from valuegenoptimized2 import createVisuals
+
+cors_urls = ["http://localhost:5173", "https://bananabreadmakeohio2024.web.app"]
 
 app = flask.Flask(__name__)
-cors = CORS(app,resources={r"/api/*":{"origins":"*"}})
-socketio = flask_socketio.SocketIO(app, cors_allowed_origins=["http://localhost:5173"])
+cors = CORS(app,resources={r"/api/*":{"origins":", ".join(cors_urls)}})
+socketio = flask_socketio.SocketIO(app, cors_allowed_origins=cors_urls)
 
-remote_control_enabled = False
+remote_control_only = False
 remote_control_state = { "left": 0, "right": 0}
 
 # Ping Functions
@@ -22,11 +24,11 @@ def socketioTest():
 # Remote Control Functions
 @socketio.on("mode")
 def socketioMode(mode):
-    global remote_control_enabled
+    global remote_control_only
     if mode == "remote":
-        remote_control_enabled = True
+        remote_control_only = True
     else:
-        remote_control_enabled = False
+        remote_control_only = False
 
 @socketio.on("remote")
 def socketioRemote(left, right):
@@ -44,10 +46,11 @@ def receiveImage():
     img = base64.encodebytes(data)
     socketio.emit('image', ("base", img.decode()))
 
-    if remote_control_enabled:
+    if remote_control_only:
         return remote_control_state
     
-    # TODO process image
+    # computedImg = createVisuals(img)
+    # socketio.emit('image', ("distance", computedImg.decode()))
     
     return {"left": 0, "right": 0}
 
